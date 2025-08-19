@@ -5,7 +5,7 @@
 
 class WorkingPredictionInterface {
   constructor() {
-    this.API_BASE_URL = "http://127.0.0.1:5000/api";
+    this.API_BASE_URL = "/api";
     this.currentCalendarDate = new Date();
     this.selectedDate = new Date();
     this.selectedModel = "gradient_boosting"; // UI key
@@ -1355,3 +1355,4 @@ if (!document.getElementById("animatedChartStyles")) {
 }
 
 console.log("✅ COMPLETE Prediction System Loaded - Fixed API model mapping");
+
