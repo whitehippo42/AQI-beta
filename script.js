@@ -98,7 +98,7 @@ const pageTitles = {
 const pageContents = {
     home: "Real-time air quality data and predictions powered by machine learning",
     prediction: "Advanced AI models for accurate air quality forecasting",
-    pollutants: "Detailed pollutant analysis with historical trends and predictions",
+    pollutants: "Detailed pollutant analysis with trends and predictions",
     about: "Information about the AirSight system and team.",
     feedback: "Contact us for questions, suggestions, or feedback",
     settings: "Customize your application preferences and system options",
@@ -641,3 +641,4 @@ window.testDateConsistency = testDateConsistency;
 
 
 console.log("✅ AirSight Core System Loaded - Enhanced Date Management Active");
+
