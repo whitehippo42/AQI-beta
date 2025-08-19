@@ -1,0 +1,365 @@
+<!-- FIXED Prediction Page HTML - USES EXISTING prediction.js -->
+<style>
+/* CRITICAL Z-INDEX FIXES FOR DROPDOWNS */
+#predictionResultsContainer {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.pred-kpi-card {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.pred-charts-section {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.pred-header-section {
+    position: relative !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+}
+
+.simple-header {
+    position: relative !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+}
+
+.pred-controls-section {
+    position: relative !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+}
+
+.pred-date-picker-container {
+    position: relative !important;
+    z-index: 999999 !important;
+    overflow: visible !important;
+}
+
+.pred-model-dropdown-container {
+    position: relative !important;
+    z-index: 999998 !important;
+    overflow: visible !important;
+}
+
+.pred-calendar-popup {
+    position: fixed !important;
+    z-index: 2147483647 !important;
+}
+
+.pred-model-dropdown-menu {
+    position: fixed !important;
+    z-index: 2147483646 !important;
+}
+
+.pred-container {
+    position: relative !important;
+    z-index: auto !important;
+    overflow: visible !important;
+}
+
+/* NEW: Chart info styling */
+.chart-info {
+    margin-top: 20px;
+    padding: 16px;
+    background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%);
+    border-radius: 12px;
+    border: 1px solid #bbf7d0;
+}
+
+.chart-info h4 {
+    margin: 0 0 8px 0;
+    color: #166534;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chart-info p {
+    margin: 0;
+    color: #15803d;
+    font-size: 14px;
+    line-height: 1.5;
+}
+</style>
+
+<div class="pred-container">
+    <!-- Header Section with Controls -->
+    <div class="pred-header-section">
+        <div class="simple-header">
+            <div style="display: flex; align-items: center;">
+                <div class="prediction-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <div class="prediction-badge">
+                    <span class="badge-text">AI Prediction Engine</span>
+                </div>
+            </div>
+
+            <!-- Date and Model Controls -->
+            <div class="pred-controls-section">
+                <!-- Date Picker -->
+                <div class="pred-date-picker-container">
+                    <div class="pred-date-picker-trigger" id="predictionDateTrigger">
+                        <span class="pred-selected-date" id="selectedPredictionDate">Today</span>
+                        <svg class="pred-date-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </div>
+                    
+                    <div class="pred-calendar-popup" id="predictionCalendarPopup">
+                        <div class="pred-calendar-header">
+                            <button class="pred-calendar-nav-btn" id="prevMonth">‹</button>
+                            <div class="pred-calendar-title" id="calendarTitle">January 2025</div>
+                            <button class="pred-calendar-nav-btn" id="nextMonth">›</button>
+                        </div>
+                        <div class="pred-calendar-grid" id="predictionCalendarGrid"></div>
+                    </div>
+                </div>
+
+                <!-- Model Dropdown -->
+                <div class="pred-model-dropdown-container">
+                    <div class="pred-model-dropdown-trigger" id="predictionModelTrigger">
+                        <span class="pred-selected-model" id="selectedPredictionModel">Gradient Boosting</span>
+                        <svg class="pred-model-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </div>
+                    
+                    <div class="pred-model-dropdown-menu" id="predictionModelMenu">
+                        <div class="pred-model-option selected prediction-model-option" data-value="gradient_boosting">
+                            <div class="pred-model-name prediction-model-name">Gradient Boosting</div>
+                            <div class="pred-model-accuracy">R² Score: 96.2% • MAE: 2.1</div>
+                        </div>
+                        <div class="pred-model-option prediction-model-option" data-value="extra_trees">
+                            <div class="pred-model-name prediction-model-name">Extra Trees</div>
+                            <div class="pred-model-accuracy">R² Score: 94.6% • MAE: 1.9</div>
+                        </div>
+                        <div class="pred-model-option prediction-model-option" data-value="random_forest">
+                            <div class="pred-model-name prediction-model-name">Random Forest</div>
+                            <div class="pred-model-accuracy">R² Score: 94.0% • MAE: 1.9</div>
+                        </div>
+                        <div class="pred-model-option prediction-model-option" data-value="xgboost">
+                            <div class="pred-model-name prediction-model-name">XGBoost</div>
+                            <div class="pred-model-accuracy">R² Score: 60.0% • MAE: 10.0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PREDICT Button -->
+                <button class="predict-button" id="showPredictionButton">
+                    Show Prediction
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ready State (shown by default) -->
+    <div id="readyForPrediction" style="text-align: center; height: 370px; padding: 30px 30px; background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%); border-radius: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+        <h2 style="font-size: 1.75rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">Ready for Prediction</h2>
+        <p style="color: #6b7280; font-size: 1rem; margin-bottom: 2rem;">Hello <strong>Guys!</strong>! Please select a date and model to view air quality predictions for LA</p>
+        
+        <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+            <div style="background: #f3f4f6; padding: 12px 20px; border-radius: 8px; font-size: 14px; color: #6b7280;">
+                <strong>Date:</strong> <span id="selectedDateDisplay">Today</span>
+            </div>
+            <div style="background: #f3f4f6; padding: 12px 20px; border-radius: 8px; font-size: 14px; color: #6b7280;">
+                <strong>Model:</strong> <span id="selectedModelDisplay">Gradient Boosting</span>
+            </div>
+            <div style="background: #f3f4f6; padding: 12px 20px; border-radius: 8px; font-size: 14px; color: #6b7280;">
+                <strong>Time:</strong> <span id="currentTimeDisplay">2025-08-10 21:32:28</span>
+            </div>
+        </div>
+        
+        <div style="background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%); border-radius: 12px; padding: 16px; max-width: 500px; margin: 0 auto;">
+            <div style="color: #090909; font-weight: 600; margin-bottom: 8px;">How to get predictions:</div>
+            <ol style="color: #333333; text-align: left; font-size: 14px; line-height: 1.6;">
+                <li>1. Choose a date using the date picker above</li>
+                <li>2. Select an AI model from the dropdown</li>
+                <li>3. Click "Show Prediction" to see results</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- PREDICTION RESULTS CONTAINER - Hidden by default -->
+    <div id="predictionResultsContainer" style="display: none;">
+        <!-- KPI Card -->
+        <div class="pred-kpi-card">
+            <div class="pred-kpi-header">
+                <div>
+                    <div class="pred-kpi-title">AQI Prediction for LA</div>
+                    <div class="pred-kpi-subtitle" id="predKpiSubtitle">Excellent air quality - perfect for outdoor activities</div>
+                </div>
+                <div class="pred-kpi-date-badge" id="predKpiDateBadge">Today</div>
+            </div>
+
+            <div class="pred-kpi-main-content">
+                <div class="pred-aqi-display">
+                    <div class="pred-aqi-value" id="kpiAqiValue">33</div>
+                    <div class="pred-aqi-level" id="kpiAqiLevel">Good</div>
+                    <div class="pred-aqi-confidence" id="kpiAqiConfidence">Confidence: 96%</div>
+                </div>
+
+                <div class="pred-aqi-visual">
+                    <div class="pred-aqi-gauge" id="predAqiGauge">
+                        <div class="pred-aqi-needle" id="aqiNeedle" style="transform: rotate(33deg);"></div>
+                    </div>
+                    <div class="pred-aqi-trend-indicator">
+                        <span class="pred-trend-arrow" id="trendArrow">↗</span>
+                        <span id="trendText">Rising (+10)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Performance -->
+            <div class="pred-model-performance">
+                <div class="pred-performance-header">
+                    <div class="pred-performance-title">Model Performance</div>
+                    <div class="pred-model-badge" id="modelBadge">Gradient Boosting</div>
+                </div>
+                
+                <div class="pred-performance-grid">
+                    <div class="pred-performance-metric">
+                        <div class="pred-metric-value" id="accuracyValue">96%</div>
+                        <div class="pred-metric-label">R² Score</div>
+                        <div class="pred-performance-bar">
+                            <div class="pred-performance-fill" id="accuracyBar" style="width: 96%;"></div>
+                        </div>
+                    </div>
+                    <div class="pred-performance-metric">
+                        <div class="pred-metric-value" id="maeValue">2.1</div>
+                        <div class="pred-metric-label">MAE</div>
+                        <div class="pred-performance-bar">
+                            <div class="pred-performance-fill" id="maeBar" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="pred-performance-metric">
+                        <div class="pred-metric-value" id="rmseValue">3.7</div>
+                        <div class="pred-metric-label">RMSE</div>
+                        <div class="pred-performance-bar">
+                            <div class="pred-performance-fill" id="rmseBar" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="pred-kpi-actions">
+                    <button class="pred-kpi-action-btn" id="alertToggle" onclick="showPredictionAlerts()">
+                        Alerts
+                    </button>
+                    <button class="pred-kpi-action-btn" onclick="exportPrediction()">
+                        Export
+                    </button>
+                    <button class="pred-kpi-action-btn" onclick="sharePrediction()">
+                        Share
+                    </button>
+                    <button class="pred-kpi-action-btn" onclick="showRecommendations()">
+                        LA Advice
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="pred-charts-section">
+            <div class="pred-charts-header">
+                <h2 class="pred-charts-title">Live Prediction Analysis</h2>
+                <div class="pred-time-filters">
+                    <button class="pred-time-filter-btn active" data-period="hourly" onclick="updatePredictionChart('hourly')">Hourly</button>
+                    <button class="pred-time-filter-btn" data-period="daily" onclick="updatePredictionChart('daily')">Daily</button>
+                    <button class="pred-time-filter-btn" data-period="weekly" onclick="updatePredictionChart('weekly')">Weekly</button>
+                </div>
+            </div>
+
+            <div class="pred-charts-grid">
+                <div class="pred-chart-card">
+                    <h3>AQI Prediction Trend</h3>
+                    <div class="pred-chart-container" style="position: relative; height: 400px;">
+                        <canvas id="predictionTrendChart" style="width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW: Chart Information Panel -->
+            <div class="chart-info">
+                <h4 id="chartInfoTitle">Hourly AQI Predictions</h4>
+                <p id="chartInfoDescription">Showing 24-hour AQI forecasts. Green bars indicate good air quality (AQI ≤ 50). The chart updates in real-time based on your selected time period.</p>
+            </div>
+        </div>
+
+        <!-- Live Data Status -->
+        <div style="margin-top: 2rem; text-align: center; padding: 1rem; background: #f0fdf4; border-radius: 12px; border: 2px solid #bbf7d0;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <div id="predLiveDataIndicator" style="width: 12px; height: 12px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                <span style="color: #166534; font-weight: 600;">Live Prediction System Active</span>
+                <span id="predLastUpdate" style="color: #059669; font-size: 14px;">LA, Downtown</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Popup - HIDDEN BY DEFAULT -->
+<div class="alert-overlay" id="alertOverlay" style="display: none;">
+    <div class="alert-popup">
+        <h3>LA AQI Alert System</h3>
+        <p>Get real-time notifications when air quality predictions for LA exceed your threshold.</p>
+        <div class="alert-popup-actions">
+            <button class="alert-popup-btn primary" onclick="enablePredictionAlerts()">Enable LA Alerts</button>
+            <button class="alert-popup-btn secondary" onclick="closePredictionAlertPopup()">Maybe Later</button>
+        </div>
+    </div>
+</div>
+
+<!-- Recommendation Popup - HIDDEN BY DEFAULT -->
+<div class="alert-overlay" id="recommendationOverlay" style="display: none;">
+    <div class="alert-popup">
+        <h3>LA Health Recommendations</h3>
+        <p id="recommendationText">Based on current predictions for LA, here's what we recommend...</p>
+        <div class="alert-popup-actions">
+            <button class="alert-popup-btn primary" onclick="closePredictionRecommendationPopup()">Got it!</button>
+        </div>
+    </div>
+</div>
+
+<!-- LOAD CHART.JS AND YOUR prediction.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+<script src="prediction.js"></script>
+
+<script>
+// SIMPLE INITIALIZATION SCRIPT - USES YOUR prediction.js
+console.log('🚀 Initializing Prediction Page with prediction.js...');
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 DOM loaded, initializing prediction system...');
+    
+    // Call your existing initialization function
+    if (typeof initPrediction === 'function') {
+        initPrediction();
+        console.log('✅ Prediction system initialized using prediction.js');
+    } else {
+        console.error('❌ initPrediction function not found in prediction.js');
+    }
+});
+
+// Fallback initialization if DOM already loaded
+if (document.readyState !== 'loading') {
+    console.log('📄 DOM already loaded, initializing immediately...');
+    
+    setTimeout(() => {
+        if (typeof initPrediction === 'function') {
+            initPrediction();
+            console.log('✅ Prediction system initialized (fallback)');
+        }
+    }, 100);
+}
+
+console.log('✅ Prediction page script loaded');
+</script>

@@ -1,0 +1,114 @@
+<!-- AQI Status Banner -->
+<div id="aqi-message" class="aqi-banner"></div>
+
+<!-- Dashboard Content -->
+<div class="dashboard-content">
+    <div class="dashboard-main">
+        <!-- KPI Cards -->
+        <div class="cards">
+            <div class="card green">
+                <h3>Air Quality Index</h3>
+                <p class="card-value">42</p>
+                <p class="card-label">Moderate</p>
+                <p class="card-subtext">Current air quality</p>
+            </div>
+            <div class="card blue">
+                <h3>Main Pollutant</h3>
+                <p class="card-value">PM<sub>2.5</sub></p>
+                <p class="card-label">Concentration</p>
+                <p class="card-subtext">Particulate matter</p>
+            </div>
+            <div class="card green">
+                <h3>Prediction</h3>
+                <p class="card-value">55</p>
+                <p class="card-label">Moderate</p>
+                <p class="card-subtext">Tomorrow's forecast</p>
+            </div>
+        </div>
+
+        <!-- Air Quality Chart -->
+        <div class="chart-container">
+            <!-- <h2 style="text-align: center;">Air Quality Over Time</h2> -->
+            <canvas id="airQualityChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Professional Recommendations Sidebar -->
+    <div class="recommendations-sidebar">
+        <!-- Header Section -->
+        <div class="recommendations-header">
+            <div class="header-icon">
+                <i class="fa-solid fa-brain fa-fade"></i>
+            </div>
+            <div class="header-content">
+                <h3>Smart Recommendations</h3>
+                <p>AI-powered health guidance</p>
+            </div>
+        </div>
+
+        <!-- Recommendations List -->
+        <div class="recommendations-wrapper" id="recommendation-list">
+            <!-- Status Banner -->
+            <div class="aqi-status-card">
+                <div class="status-indicator moderate"></div>
+                <div class="status-content">
+                    <span class="status-title">Moderate Air Quality</span>
+                    <span class="status-value">AQI: 80</span>
+                </div>
+            </div>
+
+            <!-- Individual Recommendation Cards -->
+            <div class="rec-card warning">
+                <div class="rec-left">
+                    <div class="rec-mini-icon warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="rec-border warning"></div>
+                </div>
+                <div class="rec-text">
+                    <h4>Limit Prolonged Outdoor Time</h4>
+                    <p>Sensitive individuals should be cautious with extended activities</p>
+                </div>
+            </div>
+
+            <div class="rec-card warning">
+                <div class="rec-left">
+                    <div class="rec-mini-icon warning">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="rec-border warning"></div>
+                </div>
+                <div class="rec-text">
+                    <h4>Time Your Activities</h4>
+                    <p>Plan outdoor activities for morning or evening hours</p>
+                </div>
+            </div>
+
+            <div class="rec-card medium">
+                <div class="rec-left">
+                    <div class="rec-mini-icon medium">
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+                    <div class="rec-border medium"></div>
+                </div>
+                <div class="rec-text">
+                    <h4>Close Windows During Peak</h4>
+                    <p>Keep indoor air clean during high pollution periods</p>
+                </div>
+            </div>
+
+            <div class="rec-card medium">
+                <div class="rec-left">
+                    <div class="rec-mini-icon medium">
+                        <i class="fa-solid fa-stethoscope"></i>
+                    </div>
+                    <div class="rec-border medium"></div>
+                </div>
+                <div class="rec-text">
+                    <h4>Health Monitoring</h4>
+                    <p>Extra care for asthma and heart conditions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

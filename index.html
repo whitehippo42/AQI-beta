@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AirSight Dashboard</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="styles.css" />
+    
+    <!-- External Dependencies -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="shell">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg class="air-logo wind-logo" xmlns="http://www.w3.org/2000/svg" height="50" viewBox="0 0 24 24" width="50" fill="none">
+                    <path d="M2 12h14a2 2 0 100-4" stroke="#57d9a3" stroke-width="2" stroke-linecap="round" />
+                    <path d="M6 16h10a2 2 0 110 4" stroke="#73c2fb" stroke-width="2" stroke-linecap="round" />
+                    <path d="M4 8h8" stroke="#a0d8ef" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span class="gradient-text">AirSight</span>
+            </div>
+            
+            <ul class="nav-list">
+                <li class="nav-item active" data-page="home">
+                    <img src="./images/dashboard.png" alt="Home icon" class="icon" />
+                    <span>Home</span>
+                </li>
+                <li class="nav-item" data-page="prediction">
+                    <img src="./images/predictive-chart.png" alt="Prediction icon" class="icon" />
+                    <span>Prediction</span>
+                </li>
+                <li class="nav-item" data-page="pollutants">
+                    <img src="./images/air-pollution.png" alt="Pollution Icon" class="icon" />
+                    <span>Pollutants</span>
+                </li>
+                <li class="nav-item" data-page="about">
+                    <img src="./images/about.png" alt="about Icon" class="icon" />
+                    <span>About</span>
+                </li>
+                <li class="nav-item" data-page="feedback">
+                    <img src="./images/feedback.png" alt="Feedback Icon" class="icon" />
+                    <span>Feedback</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main">
+            <div class="topbar">
+                <!-- Left: Page Title -->
+                <div>
+                    <h1 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h1>
+                    <p class="text-gray-500 mt-1" id="page-content">
+                        Historical pollutant trends, comparisons, and calendar-style views
+                    </p>
+                </div>
+                
+                <!-- Right: Page Loader -->
+                <div id="page-loader" class="page-loader"></div>
+            </div>
+
+            <!-- Dynamic Page Container -->
+            <div id="page-container" class="page"></div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Loader -->
+    <div id="fullscreen-loader" class="fullscreen-loader hidden">
+        <div class="loader-logo">
+            <svg class="air-logo wind-logo" xmlns="http://www.w3.org/2000/svg" height="60" viewBox="0 0 24 24" width="60" fill="none">
+                <path d="M2 12h14a2 2 0 100-4" stroke="#57d9a3" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 16h10a2 2 0 110 4" stroke="#73c2fb" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4 8h8" stroke="#a0d8ef" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <p class="loader-text">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Overlay for Mobile -->
+    <div id="overlay" class="overlay hidden"></div>
+
+    <!-- Footer -->
+    <footer class="footer bg-gray-100 text-gray-600 py-4 text-center mt-8">
+        <div>&copy; 2025 AirSight &mdash; All rights reserved.</div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="script.js" defer></script>
+    <script src="initDashboard.js" defer></script>
+    <script src="initPollutant.js" defer></script>
+    <script src="prediction.js" defer></script>
+</body>
+</html>

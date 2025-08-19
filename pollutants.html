@@ -1,0 +1,176 @@
+<main class="flex-1 p-8 overflow-y-auto">
+    <!-- Highest Concentration Section -->
+    <div class="bg-white p-6 rounded-2xl w-full shadow-sm my-4 overflow-x-auto" style="background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%);">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-semibold text-gray-800 text-lg">Highest Concentration Day</h3>
+            <button class="text-gray-500 hover:text-gray-700" title="Peak pollution day for each pollutant">
+                <span class="material-icons">help_outline</span>
+            </button>
+        </div>
+
+        <div id="highest-concentration-grid" class="grid grid-cols-6 gap-4 text-center rounded-2xl">
+            <!-- Highest concentration data will be populated by JavaScript -->
+            <div class="space-y-1">
+                <p class="text-sm text-gray-500">
+                    <span class="text-2xl font-bold text-gray-900">15</span> Loading...
+                </p>
+                <p class="font-semibold text-gray-800">PM2.5</p>
+                <p class="text-lg font-bold text-gray-500">Loading...</p>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-sm text-gray-500">
+                    <span class="text-2xl font-bold text-gray-900">--</span> Loading...
+                </p>
+                <p class="font-semibold text-gray-800">O3</p>
+                <p class="text-lg font-bold text-gray-500">Loading...</p>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-sm text-gray-500">
+                    <span class="text-2xl font-bold text-gray-900">--</span> Loading...
+                </p>
+                <p class="font-semibold text-gray-800">NO2</p>
+                <p class="text-lg font-bold text-gray-500">Loading...</p>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-sm text-gray-500">
+                    <span class="text-2xl font-bold text-gray-900">--</span> Loading...
+                </p>
+                <p class="font-semibold text-gray-800">SO2</p>
+                <p class="text-lg font-bold text-gray-500">Loading...</p>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-sm text-gray-500">
+                    <span class="text-2xl font-bold text-gray-900">--</span> Loading...
+                </p>
+                <p class="font-semibold text-gray-800">CO</p>
+                <p class="text-lg font-bold text-gray-500">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historic Air Quality Graph -->
+    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm" style="background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%);">
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
+            <h2 class="text-xl font-semibold text-gray-800">Historic air quality graph</h2>
+
+            <div class="flex items-center gap-4 flex-wrap">
+                <!-- Filter Buttons -->
+                <div id="filterButtons" class="flex items-center gap-2">
+                    <button data-filter="Hourly" class="filter-btn">Hourly</button>
+                    <button data-filter="Daily" class="filter-btn active">Daily</button>
+                    <button data-filter="Weekly" class="filter-btn">Weekly</button>
+                </div>
+
+                <!-- Custom Pollutant Dropdown -->
+                <div class="custom-dropdown" id="pollutantDropdown">
+                    <div class="dropdown-selected" id="dropdownSelected">
+                        <span class="dropdown-label">Pollutants</span>
+                        <span class="dropdown-value" id="dropdownValue">PM2.5</span>
+                        <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </div>
+
+                    <div class="dropdown-options" id="dropdownOptions">
+                        <div class="dropdown-option active" data-value="PM2.5">
+                            <span class="option-icon">🌫️</span>
+                            <div class="option-text">
+                                <span class="option-name">PM2.5</span>
+                                <span class="option-desc">Fine Particulate Matter</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-option" data-value="PM10">
+                            <span class="option-icon">💨</span>
+                            <div class="option-text">
+                                <span class="option-name">PM10</span>
+                                <span class="option-desc">Particulate Matter</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-option" data-value="NO2">
+                            <span class="option-icon">🚗</span>
+                            <div class="option-text">
+                                <span class="option-name">NO2</span>
+                                <span class="option-desc">Nitrogen Dioxide</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-option" data-value="SO2">
+                            <span class="option-icon">🏭</span>
+                            <div class="option-text">
+                                <span class="option-name">SO2</span>
+                                <span class="option-desc">Sulfur Dioxide</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-option" data-value="CO">
+                            <span class="option-icon">🔥</span>
+                            <div class="option-text">
+                                <span class="option-name">CO</span>
+                                <span class="option-desc">Carbon Monoxide</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-option" data-value="O3">
+                            <span class="option-icon">☀️</span>
+                            <div class="option-text">
+                                <span class="option-name">O3</span>
+                                <span class="option-desc">Ozone</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="relative h-96" style="min-height: 400px; background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%);">
+            <canvas id="pollutantChart" style="width: 100%; height: 100%;"></canvas>
+        </div>
+    </div>
+
+    <!-- IMPROVED Monthly AQI Calendar -->
+    <div class="calendar-container" style="background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%);">
+        <div class="calendar-month-header">
+            <h2 class="text-xl font-semibold text-gray-800">Monthly AQI Calendar</h2>
+            <div class="flex items-center">
+                <span class="month-title">Loading...</span>
+            </div>
+        </div>
+        
+        <!-- FIXED: Calendar Grid with improved styling -->
+        <div class="grid grid-cols-7" style="min-height: auto; max-height: 900px; background: linear-gradient(135deg, #fdfffc 0%, #e1fddc 40%, #d4f5cc 80%, #cbf0c4 100%);">
+            <!-- Calendar will be populated by JavaScript with improved structure -->
+            
+            <!-- Loading placeholder -->
+            <div class="col-span-7 calendar-loading">
+                <div class="text-center">
+                    <div class="text-2xl mb-2">📅</div>
+                    <span class="text-gray-500 font-medium">Loading calendar data...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+// Ensure Chart.js is available
+if (typeof Chart === 'undefined') {
+    console.error('Chart.js not loaded! Please ensure Chart.js is included in index.html');
+}
+
+// Auto-initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🌟 IMPROVED Pollutants page DOM loaded');
+    
+    // Wait a bit for other scripts to load
+    setTimeout(() => {
+        if (typeof initPollutant === 'function') {
+            console.log('📊 Starting improved pollutants initialization...');
+            initPollutant('daily', 'PM2.5');
+        } else {
+            console.error('❌ initPollutant function not found!');
+        }
+    }, 300);
+});
+</script>
