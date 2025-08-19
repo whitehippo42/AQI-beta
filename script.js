@@ -4,7 +4,7 @@
 // ENHANCED DATE MANAGEMENT SYSTEM
 // ===================================
 
-const API_BASE_URL = "http://127.0.0.1:5000/api";
+const API_BASE_URL = "/api";
 
 // ===================================
 // ENHANCED GLOBAL DATE MANAGEMENT SYSTEM
@@ -638,5 +638,6 @@ window.createEmergencyChart = createEmergencyChart;
 window.updateEmergencyChart = updateEmergencyChart;
 window.updateHighestConcentration = updateHighestConcentration;
 window.testDateConsistency = testDateConsistency;
+
 
 console.log("✅ AirSight Core System Loaded - Enhanced Date Management Active");
