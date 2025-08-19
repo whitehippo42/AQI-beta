@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from datetime import datetime, timedelta
 import json
@@ -7,6 +7,7 @@ import random
 from calendar import monthrange
 import hashlib
 import math
+import os
 
 # Import the FIXED AQI prediction system
 try:
@@ -16,8 +17,19 @@ except ImportError:
     print("AQI System not found. Please run aqi_prediction_system.py first.")
     HAS_AQI_SYSTEM = False
 
-app = Flask(__name__)
-CORS(app)
+app = Flask(__name__, static_folder=".", static_url_path="")
+CORS(app)  # Enable CORS for all routes
+
+# Serve static files
+@app.route('/')
+def home():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    if os.path.splitext(path)[1] in SAFE_EXTS:
+        return send_from_directory('.', path)
+    return "File type not allowed", 403
 
 print("🚀 ENHANCED AirSight Flask API with REAL ML Models")
 print("=" * 60)
@@ -758,3 +770,4 @@ if __name__ == '__main__':
     print("  GET  /api/pollutants")
     print("  GET  /api/recommendations")
     app.run(debug=True, host='0.0.0.0', port=5000)
+
